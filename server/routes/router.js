@@ -83,4 +83,20 @@ router.get("/getusers",(req,res)=>{
     })
 })
 
+
+
+//get individual user
+
+router.get("/getuser/:id",(req,res)=>{
+    const {id}= req.params;
+    conn.query("SELECT * from users where ID =?",id,(err,result)=>{
+        if(err){
+            res.status(422).json("error");
+        }else{
+            res.status(201).json(result);
+        }
+    })
+});
+
+
 module.exports = router;

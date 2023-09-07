@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Card from '@mui/material/Card';
@@ -9,9 +9,55 @@ import EmailIcon from '@mui/icons-material/Email';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EditLocationIcon from '@mui/icons-material/EditLocation';
+import {useParams } from 'react-router-dom';
 
 
 const Details = () => {
+
+  const [getUserData, setUserData] = useState([]);
+  console.log(getUserData);
+  const {id}= useParams("");
+  console.log(id);
+
+  const getdata = async () => {
+
+    const res = await fetch(`/getuser/${id}`, {
+
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (res.status === 422 || !data) {
+
+        console.log('error');
+    } else {
+        setUserData(data[0]);
+        console.log('data fetched');
+    }
+
+}
+
+useEffect(() => {
+    getdata();
+},[]) 
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className='container mt-3'>
 
@@ -29,22 +75,19 @@ const Details = () => {
 
         <div className='left_view col-lg-6 col-md-6 col-12'>
         <img src={profile} alt='profile' style={{width:50}} />
-        <h3 className='mt-3'>Name:<span style={{fontWeight:400}}>Harsh Pathak</span></h3>
-        <h3 className='mt-3'>Age:<span style={{fontWeight:400}}>21</span></h3>
-        <p><EmailIcon/>Email: <span style={{fontWeight:400}}>srk@gmail.com</span></p>
-        <p><WorkOutlineIcon/>Job: <span style={{fontWeight:400}}>Software Engineer</span></p>
+        <h3 className='mt-3'>Name:<span style={{fontWeight:400}}>{getUserData.name}</span></h3>
+        <h3 className='mt-3'>Age:<span style={{fontWeight:400}}>{getUserData.age}</span></h3>
+        <p><EmailIcon/>Email: <span style={{fontWeight:400}}>{getUserData.email}</span></p>
+        <p><WorkOutlineIcon/>Job: <span style={{fontWeight:400}}>{getUserData.work}</span></p>
         </div>
 
         <div className='right_view col-lg-6 col-md-6 col-12'>
         <p className='mt-5'><LocalPhoneIcon/>Phone: <span style={{fontWeight:400}}>65461656464</span></p>
         <p className='mt-3'><WorkOutlineIcon/>Location: <span style={{fontWeight:400}}>New Delhi</span></p>
-        <p className='mt-3'><EditLocationIcon/>Description: <span style={{fontWeight:400}}>loremm oiac  vids ovnnv diubdv sudss suibds sivubs </span></p>
+        <p className='mt-3'><EditLocationIcon/>Description: <span style={{fontWeight:400}}>{getUserData.description}</span></p>
 
         </div>
        
-
-
-
 
         </div>
       </CardContent>
