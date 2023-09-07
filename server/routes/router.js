@@ -99,4 +99,21 @@ router.get("/getuser/:id",(req,res)=>{
 });
 
 
+//delete user api
+
+router.delete("/deleteuser/:id",(req,res)=>{
+
+    const {id}=req.params;
+    conn.query("DELETE from users where ID =?",id,(err,result)=>{
+
+        if(err){
+            res.status(422).json("error");
+        }else{
+            res.status(201).json(result);
+        }
+
+    })
+});
+
+
 module.exports = router;
