@@ -116,4 +116,24 @@ router.delete("/deleteuser/:id",(req,res)=>{
 });
 
 
+// update user api
+
+router.patch("/updateuser/:id",(req,res)=>{
+
+    const {id}=req.params;
+
+    const data = req.body;
+
+    conn.query("UPDATE users SET ? WHERE ID =?",[data,id],(err,result)=>{
+
+        if(err){
+            res.status(422).json({message:"error"});
+        }else{
+            res.status(201).json(result);
+        }
+
+    })
+});
+
+
 module.exports = router;

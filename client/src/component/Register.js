@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { NavLink} from 'react-router-dom'
+import { NavLink, useNavigate} from 'react-router-dom'
 
 const Register = () => {
 
-
+  const navigate=useNavigate("");
 
   const [inpVal, setInp] = useState({
     name: "",
@@ -61,6 +61,7 @@ const Register = () => {
 
         
         alert("data added");
+        navigate("/");
         console.log("Data added")
 
       }

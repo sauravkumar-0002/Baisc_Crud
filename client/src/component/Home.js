@@ -102,7 +102,7 @@ const Home = () => {
                                             <td>{element.age}</td>
                                             <td className='d-flex justify-content-between'>
                                                 <NavLink to={`View/${element.ID}`}><button className='btn btn-success'><VisibilityIcon /></button></NavLink>
-                                                <button className='btn btn-primary'><EditIcon /></button>
+                                                <NavLink to={`Edit/${element.ID}`}><button className='btn btn-primary'><EditIcon /></button></NavLink>
                                                 <button onClick={()=>deleteuser(element.ID)} className='btn btn-danger'><DeleteIcon /></button>
                                             </td>
                                         </tr>

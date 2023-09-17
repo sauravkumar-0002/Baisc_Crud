@@ -9,11 +9,12 @@ import EmailIcon from '@mui/icons-material/Email';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EditLocationIcon from '@mui/icons-material/EditLocation';
-import {useParams } from 'react-router-dom';
+import {useParams,NavLink, useNavigate} from 'react-router-dom';
 
 
 const Details = () => {
 
+  const navigate=useNavigate("");
   const [getUserData, setUserData] = useState([]);
   console.log(getUserData);
   const {id}= useParams("");
@@ -48,10 +49,29 @@ useEffect(() => {
 },[]) 
 
 
+const deleteuser = async (id) => {
 
+  const res = await fetch(`/deleteuser/${id}`, {
 
+      method: "DELETE",
+      headers: {
+          "Content-Type": "application/json"
+      }
 
+  });
 
+  const deletedata = await res.json();
+  console.log(deletedata);
+
+  if (res.status === 422 || !deletedata) {
+
+      console.log('error');
+  } else {
+      console.log('data deleted');
+      navigate("/");
+  }
+
+}
 
 
 
@@ -66,8 +86,8 @@ useEffect(() => {
       <Card sx={{ maxWidth: 600 }}>
       <CardContent>
       <div  className='add_btn'>
-          <button className='btn btn-primary mx-2'><EditIcon/></button>
-          <button className='btn btn-danger'><DeleteIcon/></button>
+          <NavLink to={`/Edit/${getUserData.ID}`} ><button className='btn btn-primary mx-2'><EditIcon/></button></NavLink>
+          <button onClick={()=>deleteuser(getUserData.ID)} className='btn btn-danger'><DeleteIcon/></button>
 
         </div>
 
